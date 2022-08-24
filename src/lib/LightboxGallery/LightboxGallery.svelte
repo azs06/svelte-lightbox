@@ -4,7 +4,11 @@
 	import { ChevronRight, ChevronLeft } from "./icons/index";
     import { slide } from './slide.js';
 	const dispatch = createEventDispatcher();
-	export let images = [];
+	type Image = {
+		src: string,
+		altText: string
+	}
+	export let images: Array<Image> = [];
 	export let activeImageIndex = 0;
 
     const SLIDE_DURATION = 500;
@@ -16,10 +20,10 @@
 		e.stopPropagation();
 		dispatch("close");
 	};
-	const getImageUrl = (imageObject) => {
-		return imageObject[0]?.src;
+	const getImageUrl = (imageObject: Image) => {
+		return imageObject?.src;
 	};
-	const handleThumbnailClick = (media) => {
+	const handleThumbnailClick = (media: Image) => {
 		activeImageIndex = images.findIndex(
 			(image) => image?.src == media?.src,
 		);
@@ -38,7 +42,7 @@
 			nextSlide();
 		}
 	};
-    const gotoSlide = (direction) => (e) => {
+    const gotoSlide = (direction: string) => (e:MouseEvent) => {
         e.preventDefault();
 		/* if we have only one image, no need to slide */
 		if(Array.isArray(images) && images.length <= 1) return;
