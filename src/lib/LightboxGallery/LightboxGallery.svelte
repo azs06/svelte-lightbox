@@ -29,14 +29,14 @@
 		if (activeImageIndex < images.length - 1) {
 			activeImageIndex = activeImageIndex + 1;
 		} else {
-			activeImageIndex = activeImageIndex - 1;
+			prevSlide();
 		}
 	};
 	const prevSlide = () => {
 		if (activeImageIndex >= 1) {
 			activeImageIndex = activeImageIndex - 1;
 		} else {
-			activeImageIndex = activeImageIndex + 1;
+			nextSlide();
 		}
 	};
     const gotoSlide = (direction) => (e) => {
