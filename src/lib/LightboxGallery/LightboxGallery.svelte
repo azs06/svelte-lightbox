@@ -16,13 +16,12 @@
 		e.stopPropagation();
 		dispatch("close");
 	};
-	const getImageUrl = (imageInstances) => {
-		if (!Array.isArray(imageInstances)) return "";
-		return imageInstances[0]?.url;
+	const getImageUrl = (imageObject) => {
+		return imageObject[0]?.src;
 	};
 	const handleThumbnailClick = (media) => {
 		activeImageIndex = images.findIndex(
-			(image) => image?.instances[0]?.url == media?.instances[0]?.url,
+			(image) => image?.src == media?.src,
 		);
 	};
 	const nextSlide = () => {
@@ -81,7 +80,7 @@
                             class="image"
                             in:slide={transition_args}
                             out:slide={transition_args}
-                            src={media.instances[0].url}
+                            src={media.src}
                             alt="{media.altText}"
                         />
                     </figure>
@@ -114,7 +113,7 @@
 								<img
 									on:click="{handleThumbnailClick(media)}"
 									class="lightbox-modal__img cursor-pointer"
-									src="{getImageUrl(media.instances)}"
+									src="{getImageUrl(media)}"
 									alt="{media.altText}"
 								/>
 							</li>
