@@ -150,7 +150,6 @@
 		background-color: rgba(0, 0, 0, 0.7);
 		display: block;
 		z-index: 1000000000;
-		animation: fade-in 0.4s;
 	}
 	.lightbox-modal .image-box {
 		position: relative;
@@ -162,7 +161,9 @@
 		transform: translateY(-50%);
 		background-color: black;
 		justify-content: center;
-		@media all and (min-width: 768px) {
+	}
+	@media all and (min-width: 768px) {
+		.lightbox-modal .image-box{
 			margin: 0 auto;
 			width: 70vw;
 			height: 80vh;
@@ -176,7 +177,9 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 		padding-top: 50px;
-		@media all and (min-width: 768px) {
+	}
+	@media all and (min-width: 768px) {
+		.lightbox-modal .image-figure {
 			max-width: 60vw;
 			max-height: 60vh;
 			padding-top: 0;
@@ -202,7 +205,9 @@
 	.lightbox-modal__thubmnail li img.lightbox-modal__img {
 		width: 45px;
 		height: 45px;
-		@media all and (min-width: 768px) {
+	}
+	@media all and (min-width: 768px) {
+		.lightbox-modal__thubmnail li img.lightbox-modal__img {
 			width: 60px;
 			height: 60px;
 		}
@@ -222,9 +227,12 @@
 		border: none;
 		z-index: 10000000;
 		cursor: pointer;
-		@media all and (min-width: 768px) {
+	}
+	@media all and (min-width: 768px) {
+		.lightbox-modal .close-btn{
 			right: 0;
 		}
+
 	}
 	.thumbnail-image.active img {
 		border: 2px solid #fff;
@@ -241,10 +249,8 @@
 		display: inline-block;
 		border-radius: 50%;
 	}
-	.listNavigation-list.active {
-		.list-box {
-			background-color: #fff;
-		}
+	.listNavigation-list.active .list-box {
+		background-color: #fff;
 	}
 	.left-nav {
 		align-self: flex-start;
@@ -257,13 +263,4 @@
         max-height: 60vh;
         overflow: hidden;
     }
-	@keyframes fade-in {
-		from {
-			opacity: 0;
-		}
-
-		to {
-			opacity: 1;
-		}
-	}
 </style>
