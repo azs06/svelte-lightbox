@@ -2,10 +2,10 @@
     import LightboxGallery from "$lib/LightboxGallery/LightboxGallery.svelte";
     export let count = 0;
     let images = [
-        {src: "https://i.picsum.photos/id/0/5616/3744.jpg", altText: "text"},
-        {src: "https://i.picsum.photos/id/1/5616/3744.jpg", altText: "text"},
-        {src: "https://i.picsum.photos/id/10/2500/1667.jpg", altText: "text"},
-        {src: "https://i.picsum.photos/id/100/2500/1656.jpg", altText: "text"}
+        {src: "https://picsum.photos/id/237/200/300", altText: "text"},
+        {src: "https://picsum.photos/id/238/200/300", altText: "text"},
+        {src: "https://picsum.photos/id/239/200/300", altText: "text"},
+        {src: "https://picsum.photos/id/240/200/300", altText: "text"}
     ];
 </script>    
 <h1>Welcome to SvelteKit</h1>

@@ -227,6 +227,8 @@
 		border: none;
 		z-index: 10000000;
 		cursor: pointer;
+		color: #fff;
+		text-decoration: underline;
 	}
 	@media all and (min-width: 768px) {
 		.lightbox-modal .close-btn{
@@ -241,6 +243,8 @@
 		position: static;
 		margin-top: -30px;
 		text-align: center;
+		margin: 0;
+		padding: 0;
 	}
 	.list-box {
 		width: 8px;
@@ -262,5 +266,15 @@
         max-width: 60vw;
         max-height: 60vh;
         overflow: hidden;
+		text-align: center;
     }
+	.lightbox-modal__listNavigation{
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.listNavigation-list{
+		list-style: none;
+		display: inline;
+	}
 </style>
