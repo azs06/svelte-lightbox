@@ -6,5 +6,10 @@
 		{ src: 'https://picsum.photos/id/239/200/300', altText: 'Image 3' },
 		{ src: 'https://picsum.photos/id/240/200/300', altText: 'Image 4' }
 	];
+    let showLightbox = false;
+    const closeLightBox = () => {
+        showLightbox = false;
+    }
 </script>
-<LightboxGallery {images} />
+<button on:click={() => showLightbox =! showLightbox}>Toggle Lightbox</button>
+<LightboxGallery showLightbox={showLightbox} {images} on:close={closeLightBox} />

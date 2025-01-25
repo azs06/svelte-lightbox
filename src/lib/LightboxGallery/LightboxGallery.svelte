@@ -1,32 +1,32 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
-	import Icon from "./icons/Icon.svelte";
-	import { ChevronRight, ChevronLeft } from "./icons/index";
-    import { slide } from './slide.js';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import Icon from './icons/Icon.svelte';
+	import { ChevronRight, ChevronLeft } from './icons/index';
+	import { slide } from './slide.js';
 	const dispatch = createEventDispatcher();
 	type Image = {
-		src: string,
-		altText: string
-	}
+		src: string;
+		altText: string;
+	};
 	export let images: Array<Image> = [];
 	export let activeImageIndex = 0;
+	export let showLightbox = true;
 
-    const SLIDE_DURATION = 500;
-    const transition_args = {
-		duration: SLIDE_DURATION,
-	}
-	const handleClose = (e) => {
+	const SLIDE_DURATION = 500;
+	const transition_args = {
+		duration: SLIDE_DURATION
+	};
+	const handleClose = (e: CustomEvent) => {
+		console.log(e);
 		e.preventDefault();
 		e.stopPropagation();
-		dispatch("close");
+		dispatch('close');
 	};
 	const getImageUrl = (imageObject: Image) => {
 		return imageObject?.src;
 	};
 	const handleThumbnailClick = (media: Image) => {
-		activeImageIndex = images.findIndex(
-			(image) => image?.src == media?.src,
-		);
+		activeImageIndex = images.findIndex((image) => image?.src == media?.src);
 	};
 	const nextSlide = () => {
 		if (activeImageIndex < images.length - 1) {
@@ -42,66 +42,54 @@
 			nextSlide();
 		}
 	};
-    const gotoSlide = (direction: string) => (e:MouseEvent) => {
-        e.preventDefault();
+	const gotoSlide = (direction: string) => (e: MouseEvent) => {
+		e.preventDefault();
 		/* if we have only one image, no need to slide */
-		if(Array.isArray(images) && images.length <= 1) return;
-        if(direction == 'next'){
-            nextSlide();
-        }else{
-            prevSlide();
-        }
-    }
+		if (Array.isArray(images) && images.length <= 1) return;
+		if (direction == 'next') {
+			nextSlide();
+		} else {
+			prevSlide();
+		}
+	};
 </script>
 
-<div class="lightbox-modal">
-	<div class="image-box">
-		<button class="close-btn cursor-pointer" on:click="{handleClose}">
-			<span class="text-white font-bold underline italic">Close</span>
-		</button>
-		<div class="left-nav">
-			<a href="#" on:click="{gotoSlide('prev')}" class="text-white">
-				<Icon
-					width="{24}"
-					height="{24}"
-					className="color-white-900 inline"
-					name="ChevronLeft"
-				>
-					<ChevronLeft />
-				</Icon>
-			</a>
-		</div>
-			<div 
-                id="image-figure" 
-                class="image-figure"
-            > 
-            {#each images as media, index}
-                {#if activeImageIndex === index}      
-                    <figure 
-                        class="figure-box"                
-                    >
-                        <img
-                            class="image"
-                            in:slide={transition_args}
-                            out:slide={transition_args}
-                            src={media.src}
-                            alt="{media.altText}"
-                        />
-                    </figure>
-                {/if}
-            {/each}
+{#if showLightbox}
+	<div class="lightbox-modal">
+		<div class="image-box">
+			<button class="close-btn cursor-pointer" on:click={handleClose}>
+				<span class="text-white font-bold underline italic">Close</span>
+			</button>
+			<div class="left-nav">
+				<a href="#" on:click={gotoSlide('prev')} class="text-white">
+					<Icon width={24} height={24} className="color-white-900 inline" name="ChevronLeft">
+						<ChevronLeft />
+					</Icon>
+				</a>
+			</div>
+			<div id="image-figure" class="image-figure">
+				{#each images as media, index}
+					{#if activeImageIndex === index}
+						<figure class="figure-box">
+							<img
+								class="image"
+								in:slide={transition_args}
+								out:slide={transition_args}
+								src={media.src}
+								alt={media.altText}
+							/>
+						</figure>
+					{/if}
+				{/each}
 				<div class="m-0 p-0 list-navigation">
 					<ul class="lightbox-modal__listNavigation list-none">
 						{#each images as media, index}
 							<li
-								class="listNavigation-list list-none inline {index ==
-								activeImageIndex
+								class="listNavigation-list list-none inline {index == activeImageIndex
 									? 'active'
 									: ''}"
 							>
-								<span
-									on:click="{handleThumbnailClick(media)}"
-									class="list-box cursor-pointer"></span>
+								<span on:click={handleThumbnailClick(media)} class="list-box cursor-pointer" />
 							</li>
 						{/each}
 					</ul>
@@ -109,36 +97,28 @@
 				<div class="m-0 p-0">
 					<ul class="lightbox-modal__thubmnail">
 						{#each images as media, index}
-							<li
-								class="thumbnail-image {index == activeImageIndex
-									? 'active'
-									: ''}"
-							>
+							<li class="thumbnail-image {index == activeImageIndex ? 'active' : ''}">
 								<img
-									on:click="{handleThumbnailClick(media)}"
+									on:click={handleThumbnailClick(media)}
 									class="lightbox-modal__img cursor-pointer"
-									src="{getImageUrl(media)}"
-									alt="{media.altText}"
+									src={getImageUrl(media)}
+									alt={media.altText}
 								/>
 							</li>
 						{/each}
 					</ul>
 				</div>
 			</div>
-		<div class="right-nav">
-			<a href="#" on:click="{gotoSlide('next')}" class="text-white">
-				<Icon
-					width="{24}"
-					height="{24}"
-					className="color-gray-900 inline"
-					name="ChevronLeft"
-				>
-					<ChevronRight />
-				</Icon>
-			</a>
+			<div class="right-nav">
+				<a href="#" on:click={gotoSlide('next')} class="text-white">
+					<Icon width={24} height={24} className="color-gray-900 inline" name="ChevronLeft">
+						<ChevronRight />
+					</Icon>
+				</a>
+			</div>
 		</div>
 	</div>
-</div>
+{/if}
 
 <style lang="postcss">
 	.lightbox-modal {
@@ -163,7 +143,7 @@
 		justify-content: center;
 	}
 	@media all and (min-width: 768px) {
-		.lightbox-modal .image-box{
+		.lightbox-modal .image-box {
 			margin: 0 auto;
 			width: 70vw;
 			height: 80vh;
@@ -196,12 +176,12 @@
 		padding: 5px 5px 5px 5px;
 		display: inline;
 	}
-    .lightbox-modal__thubmnail li:first-child{
-        padding-left: 0;
-    }
-    .lightbox-modal__thubmnail li:last-child{
-        padding-right: 0;
-    }
+	.lightbox-modal__thubmnail li:first-child {
+		padding-left: 0;
+	}
+	.lightbox-modal__thubmnail li:last-child {
+		padding-right: 0;
+	}
 	.lightbox-modal__thubmnail li img.lightbox-modal__img {
 		width: 45px;
 		height: 45px;
@@ -231,10 +211,9 @@
 		text-decoration: underline;
 	}
 	@media all and (min-width: 768px) {
-		.lightbox-modal .close-btn{
+		.lightbox-modal .close-btn {
 			right: 0;
 		}
-
 	}
 	.thumbnail-image.active img {
 		border: 2px solid #fff;
@@ -262,22 +241,22 @@
 	.right-nav {
 		align-self: flex-end;
 	}
-    .figure-box{
-        max-width: 60vw;
-        max-height: 60vh;
-        overflow: hidden;
+	.figure-box {
+		max-width: 60vw;
+		max-height: 60vh;
+		overflow: hidden;
 		text-align: center;
-    }
-	.lightbox-modal__listNavigation{
+	}
+	.lightbox-modal__listNavigation {
 		list-style: none;
 		margin: 0;
 		padding: 0;
 	}
-	.listNavigation-list{
+	.listNavigation-list {
 		list-style: none;
 		display: inline;
 	}
-	.text-white{
+	.text-white {
 		color: #fff;
 	}
 </style>
