@@ -224,6 +224,7 @@
 		pointer-events: auto;
 		color: white;
 		transition: background-color 0.3s ease;
+		border: none;
 	}
 
 	.nav-button:hover {
