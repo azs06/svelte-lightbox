@@ -11,13 +11,12 @@
 	export let images: Array<Image> = [];
 	export let activeImageIndex = 0;
 	export let showLightbox = true;
+	export let slideDuration = 500;
 
-	const SLIDE_DURATION = 500;
 	const transition_args = {
-		duration: SLIDE_DURATION
+		duration: slideDuration
 	};
 	const handleClose = (e: CustomEvent) => {
-		console.log(e);
 		e.preventDefault();
 		e.stopPropagation();
 		dispatch('close');
@@ -78,6 +77,10 @@
 								src={media.src}
 								alt={media.altText}
 							/>
+						</figure>
+					{:else}
+						<figure class="figure-box">
+							
 						</figure>
 					{/if}
 				{/each}
