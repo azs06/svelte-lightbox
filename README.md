@@ -4,7 +4,7 @@ A simple lightbox gallery component for Svelte.
 
 ```svelte
 <script>
-  import Lightbox from 'svelte-lightbox-gallery';
+  import LightboxGallery from 'simple-svelte-lightbox';
   import { onMount } from 'svelte';
   let images = [
   { src: 'https://picsum.photos/id/237/200/300', altText: 'Image 1' },
@@ -20,5 +20,5 @@ A simple lightbox gallery component for Svelte.
 
 </script>
 
-<Lightbox showLightBox={showLightBox} images={images} onClose={onClose} />
+<LightboxGallery showLightBox={showLightBox} images={images} onClose={onClose} />
 ```
