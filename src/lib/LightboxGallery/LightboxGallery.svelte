@@ -28,22 +28,13 @@
 		activeImageIndex = images.findIndex((image) => image?.src == media?.src);
 	};
 	const nextSlide = () => {
-		if (activeImageIndex < images.length - 1) {
-			activeImageIndex = activeImageIndex + 1;
-		} else {
-			prevSlide();
-		}
+		activeImageIndex = (activeImageIndex + 1) % images.length;
 	};
 	const prevSlide = () => {
-		if (activeImageIndex >= 1) {
-			activeImageIndex = activeImageIndex - 1;
-		} else {
-			nextSlide();
-		}
+		activeImageIndex = (activeImageIndex - 1 + images.length) % images.length;
 	};
 	const gotoSlide = (direction: string) => (e: MouseEvent) => {
 		e.preventDefault();
-		/* if we have only one image, no need to slide */
 		if (Array.isArray(images) && images.length <= 1) return;
 		if (direction == 'next') {
 			nextSlide();
@@ -67,23 +58,24 @@
 				</a>
 			</div>
 			<div id="image-figure" class="image-figure">
-				{#each images as media, index}
-					{#if activeImageIndex === index}
-						<figure class="figure-box">
-							<img
-								class="image"
-								in:slide={transition_args}
-								out:slide={transition_args}
-								src={media.src}
-								alt={media.altText}
-							/>
-						</figure>
-					{:else}
-						<figure class="figure-box">
-							
-						</figure>
-					{/if}
-				{/each}
+				<div class="slides-container">
+					{#each images as media, index}
+						{#if activeImageIndex === index}
+							<figure class="figure-box">
+								<img
+									class="image"
+									in:slide|local={transition_args}
+									out:slide|local={transition_args}
+									src={media.src}
+									alt={media.altText}
+								/>
+							</figure>
+						{:else}
+							<figure class="figure-box" />
+						{/if}
+					{/each}
+				</div>
+
 				<div class="m-0 p-0 list-navigation">
 					<ul class="lightbox-modal__listNavigation list-none">
 						{#each images as media, index}
@@ -124,6 +116,14 @@
 {/if}
 
 <style lang="postcss">
+	.slides-container {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 	.lightbox-modal {
 		position: fixed;
 		top: 0;
