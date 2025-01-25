@@ -277,4 +277,7 @@
 		list-style: none;
 		display: inline;
 	}
+	.text-white{
+		color: #fff;
+	}
 </style>
