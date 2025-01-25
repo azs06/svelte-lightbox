@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 	import Icon from './icons/Icon.svelte';
 	import { ChevronRight, ChevronLeft } from './icons/index';
-	import { slide } from './slide.js';
+	import Image from '$lib/components/Image.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -14,11 +14,6 @@
 	export let images: Array<Image> = [];
 	export let activeImageIndex = 0;
 	export let showLightbox = true;
-	export let slideDuration = 500;
-
-	const transition_args = {
-		duration: slideDuration
-	};
 
 	const handleClose = (e: KeyboardEvent) => {
 		e.preventDefault();
@@ -89,12 +84,8 @@
 					{#each images as media, index}
 						{#if activeImageIndex === index}
 							<figure class="figure-box">
-								<img
-									class="image"
-									in:slide|local={transition_args}
-									out:slide|local={transition_args}
-									src={media.src}
-									alt={media.altText}
+								<Image
+									image={media}
 								/>
 							</figure>
 						{/if}
