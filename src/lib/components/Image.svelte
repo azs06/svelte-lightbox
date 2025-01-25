@@ -56,9 +56,7 @@
 		class="image {imgClass}"
 		class:loaded={imageLoaded}
 		style="opacity: {imageLoaded || preload ? 1 : 0}"
-		src={shouldLoad
-			? image.src
-			: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}
+		srcset={image.placeholder ? `${image.placeholder} 1x, ${image.src} 2x` : image.src}
 		alt={image.altText}
 		width={image.width}
 		height={image.height}
@@ -66,16 +64,6 @@
 		on:load={onLoad}
 		loading={lazy ? 'lazy' : 'eager'}
 	/>
-
-	{#if !imageLoaded && image.placeholder}
-		<img
-			class="placeholder"
-			src={image.placeholder}
-			alt="loading"
-			width={image.width}
-			height={image.height}
-		/>
-	{/if}
 </div>
 
 <style lang="postcss">

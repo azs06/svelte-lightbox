@@ -10,6 +10,8 @@
 		src: string;
 		altText: string;
 	};
+	type Timer = ReturnType<typeof setTimeout>;
+	let debounceTimeout: Timer;
 
 	export let images: Array<Image> = [];
 	export let activeImageIndex = 0;
@@ -23,15 +25,12 @@
 
 	const handleKeydown = (e: KeyboardEvent) => {
 		if (!showLightbox) return;
-		if (e.key === 'Escape') {
-			handleClose(e);
-		}
-		if (e.key === 'ArrowRight') {
-			nextSlide();
-		}
-		if (e.key === 'ArrowLeft') {
-			prevSlide();
-		}
+		clearTimeout(debounceTimeout);
+		debounceTimeout = setTimeout(() => {
+			if (e.key === 'Escape') handleClose(e);
+			if (e.key === 'ArrowRight') nextSlide(e);
+			if (e.key === 'ArrowLeft') prevSlide(e);
+		}, 150);
 	};
 
 	const getImageUrl = (imageObject: Image) => {
@@ -42,18 +41,20 @@
 		activeImageIndex = images.findIndex((image) => image?.src === media?.src);
 	};
 
-	const nextSlide = () => {
+	const nextSlide = (e: KeyboardEvent) => {
+		e?.preventDefault();
 		activeImageIndex = (activeImageIndex + 1) % images.length;
 	};
 
-	const prevSlide = () => {
+	const prevSlide = (e: KeyboardEvent) => {
+		e?.preventDefault();
 		activeImageIndex = (activeImageIndex - 1 + images.length) % images.length;
 	};
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 {#if showLightbox}
-	<div class="lightbox-modal">
+	<div class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image Lightbox">
 		<div class="image-box">
 			<button class="close-btn cursor-pointer" on:click={handleClose}>
 				<span class="text-white font-bold underline italic">Close</span>
@@ -62,19 +63,19 @@
 			{#if images.length > 1}
 				<div class="navigation-controls">
 					<div class="left-nav">
-						<a href="#" on:click={prevSlide} class="nav-button">
+						<button aria-label="Previous image" on:click={prevSlide} class="nav-button">
 							<Icon width={24} height={24} className="inline" name="ChevronLeft">
 								<ChevronLeft />
 							</Icon>
-						</a>
+						</button>
 					</div>
 
 					<div class="right-nav">
-						<a href="#" on:click={nextSlide} class="nav-button">
+						<button aria-label="Next image" on:click={nextSlide} class="nav-button">
 							<Icon width={24} height={24} className="inline" name="ChevronRight">
 								<ChevronRight />
 							</Icon>
-						</a>
+						</button>
 					</div>
 				</div>
 			{/if}
@@ -84,9 +85,7 @@
 					{#each images as media, index}
 						{#if activeImageIndex === index}
 							<figure class="figure-box">
-								<Image
-									image={media}
-								/>
+								<Image image={media} />
 							</figure>
 						{/if}
 					{/each}
@@ -117,7 +116,7 @@
 									<img
 										on:click={() => handleThumbnailClick(media)}
 										class="lightbox-modal__img cursor-pointer"
-										src={getImageUrl(media)}
+										src={media.src}
 										alt={media.altText}
 									/>
 								</li>
