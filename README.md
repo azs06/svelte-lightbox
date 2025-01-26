@@ -22,3 +22,8 @@ A simple lightbox gallery component for Svelte.
 
 <LightboxGallery showLightBox={showLightBox} images={images} onClose={onClose} />
 ```
+
+### Todo
+- [ ] Add more customization options
+- [ ] Add more animations
+- [ ] Add more tests
