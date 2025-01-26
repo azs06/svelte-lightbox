@@ -1,6 +1,6 @@
 {
 	"name": "simple-svelte-lightbox",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"private": false,
 	"scripts": {
 		"dev": "vite dev",
@@ -12,7 +12,16 @@
 		"format": "prettier --write .",
 		"publish": "npm publish --access public"
 	},
-	"entry": "./LightboxGallery/LightboxGallery.svelte",
+	"exports": {
+		".": {
+			"svelte": "./LightboxGallery/LightboxGallery.svelte",
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"svelte": "./LightboxGallery/LightboxGallery.svelte",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
