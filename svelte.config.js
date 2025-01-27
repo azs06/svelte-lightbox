@@ -1,20 +1,23 @@
 import adapter from '@sveltejs/adapter-static';
-import preprocess from 'svelte-preprocess';
+import { sveltePreprocess } from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
-	preprocess: preprocess(),
-
 	kit: {
 		adapter: adapter({
 			fallback: '404.html'
 		}),
 		paths: {
-			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
+			base: process.argv.includes('dev') ? '' : '/svelte-lightbox'
 		}
-	}
+	},
+	preprocess: sveltePreprocess({
+		typescript: {
+			tsconfigFile: './tsconfig.json'
+		}
+	})
 };
 
 export default config;
