@@ -7,7 +7,11 @@ const config = {
 	// for more information about preprocessors
 	kit: {
 		adapter: adapter({
-			fallback: '404.html'
+			fallback: '404.html',
+			pages: 'build',
+			assets: 'build',
+			precompress: false,
+			strict: true
 		}),
 		paths: {
 			base: process.argv.includes('dev') ? '' : '/svelte-lightbox'
