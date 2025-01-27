@@ -1,4 +1,5 @@
 <script lang="ts">
+	export const prerender = true;
 	import LightboxGallery from '$lib/LightboxGallery/LightboxGallery.svelte';
 	let images = [
 		{ src: 'https://picsum.photos/id/237/200/300', altText: 'Image 1' },
