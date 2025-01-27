@@ -24,7 +24,7 @@
 	"types": "./dist/index.d.ts",
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/adapter-static": "^3.0.8",
+		"@sveltejs/adapter-static": "^1.0.0",
 		"@sveltejs/kit": "next",
 		"@sveltejs/package": "^1.0.0-next.1",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
